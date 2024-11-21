@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -11,20 +12,38 @@ func main() {
 
 	fmt.Println("Enter name for player 1: ")
 	scanner.Scan()
-	p1 := scanner.Text()
+	name := scanner.Text()
+	p1 := player{
+		name:   name,
+		symbol: 'X',
+	}
 
 	fmt.Println("Enter name for player 2: ")
 	scanner.Scan()
-	p2 := scanner.Text()
+	name = scanner.Text()
+	p2 := player{
+		name:   name,
+		symbol: 'O',
+	}
 
 	board := gameBoard{
-		p1:   p1,
-		p2:   p2,
-		turn: p1,
+		moves:      [9]rune{},
+		p1:         p1,
+		p2:         p2,
+		nextPlayer: p1.name,
 	}
 
 	for {
-		board.printMoves()
+		board.printBoard()
 		board.printTurn()
+		scanner.Scan()
+		nextMoveCell := scanner.Text()
+		nextMoveIdx, err := strconv.Atoi(nextMoveCell)
+		if err != nil {
+			fmt.Println("couldn't convert to integer")
+			continue
+		}
+		board.addMove(nextMoveIdx)
+		board.toggleTurn()
 	}
 }

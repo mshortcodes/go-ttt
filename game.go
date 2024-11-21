@@ -3,13 +3,18 @@ package main
 import "fmt"
 
 type gameBoard struct {
-	moves [9]rune
-	p1    string
-	p2    string
-	turn  string
+	moves      [9]rune
+	p1         player
+	p2         player
+	nextPlayer string
 }
 
-func (b gameBoard) printMoves() {
+type player struct {
+	name   string
+	symbol rune
+}
+
+func (b gameBoard) printBoard() {
 	for i, move := range b.moves {
 		switch i {
 		case 2, 5, 8:
@@ -20,11 +25,24 @@ func (b gameBoard) printMoves() {
 	}
 }
 
-func (b *gameBoard) printTurn() {
-	fmt.Printf("%s's turn > ", b.turn)
-	if b.turn == b.p1 {
-		b.turn = b.p2
-		return
+func (b gameBoard) printTurn() {
+	fmt.Printf("%s's turn > ", b.nextPlayer)
+}
+
+func (b *gameBoard) toggleTurn() {
+	switch {
+	case b.nextPlayer == b.p1.name:
+		b.nextPlayer = b.p2.name
+	case b.nextPlayer == b.p2.name:
+		b.nextPlayer = b.p1.name
 	}
-	b.turn = b.p1
+}
+
+func (b *gameBoard) addMove(idx int) {
+	switch {
+	case b.nextPlayer == b.p1.name:
+		b.moves[idx] = b.p1.symbol
+	case b.nextPlayer == b.p2.name:
+		b.moves[idx] = b.p2.symbol
+	}
 }
