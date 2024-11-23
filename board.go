@@ -1,20 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+)
 
-type gameBoard struct {
+type board struct {
 	moves      [9]rune
 	p1         player
 	p2         player
 	nextPlayer string
+	scanner    *bufio.Scanner
 }
 
-type player struct {
-	name   string
-	symbol rune
-}
-
-func (b gameBoard) printBoard() {
+func (b board) printBoard() {
 	for i, move := range b.moves {
 		switch i {
 		case 2, 5, 8:
@@ -25,11 +24,11 @@ func (b gameBoard) printBoard() {
 	}
 }
 
-func (b gameBoard) printTurn() {
+func (b board) printTurn() {
 	fmt.Printf("%s's turn > ", b.nextPlayer)
 }
 
-func (b *gameBoard) toggleTurn() {
+func (b *board) toggleTurn() {
 	switch {
 	case b.nextPlayer == b.p1.name:
 		b.nextPlayer = b.p2.name
@@ -38,7 +37,7 @@ func (b *gameBoard) toggleTurn() {
 	}
 }
 
-func (b *gameBoard) addMove(idx int) {
+func (b *board) addMove(idx int) {
 	switch {
 	case b.nextPlayer == b.p1.name:
 		b.moves[idx] = b.p1.symbol

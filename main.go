@@ -7,30 +7,22 @@ import (
 	"strconv"
 )
 
+func getNextMove(scanner *bufio.Scanner) int {
+
+}
+
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	fmt.Println("Enter name for player 1: ")
-	scanner.Scan()
-	name := scanner.Text()
-	p1 := player{
-		name:   name,
-		symbol: 'X',
-	}
+	p1 := createPlayer(scanner, 1)
+	p2 := createPlayer(scanner, 2)
 
-	fmt.Println("Enter name for player 2: ")
-	scanner.Scan()
-	name = scanner.Text()
-	p2 := player{
-		name:   name,
-		symbol: 'O',
-	}
-
-	board := gameBoard{
+	board := board{
 		moves:      [9]rune{},
 		p1:         p1,
 		p2:         p2,
 		nextPlayer: p1.name,
+		scanner:    scanner,
 	}
 
 	for {
