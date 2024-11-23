@@ -7,11 +7,12 @@ import (
 
 type player struct {
 	name   string
-	symbol rune
+	symbol string
 }
 
-func createPlayer(playerNum int, symbol rune, scanner *bufio.Scanner) player {
+func createPlayer(playerNum int, symbol string, scanner *bufio.Scanner) player {
 	name := ""
+
 	for {
 		fmt.Printf("Enter name for player %d: ", playerNum)
 		scanner.Scan()
@@ -22,6 +23,7 @@ func createPlayer(playerNum int, symbol rune, scanner *bufio.Scanner) player {
 		}
 		break
 	}
+
 	return player{
 		name:   name,
 		symbol: symbol,
