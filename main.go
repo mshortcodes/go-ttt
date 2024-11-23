@@ -4,12 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 )
-
-func getNextMove(scanner *bufio.Scanner) int {
-
-}
 
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -28,11 +23,14 @@ func main() {
 	for {
 		board.printBoard()
 		board.printTurn()
-		scanner.Scan()
-		nextMoveCell := scanner.Text()
-		nextMoveIdx, err := strconv.Atoi(nextMoveCell)
+		nextMoveIdx, err := board.getNextMove()
 		if err != nil {
-			fmt.Println("couldn't convert to integer")
+			fmt.Println(err)
+			continue
+		}
+		err = board.checkCell(nextMoveIdx)
+		if err != nil {
+			fmt.Println(err)
 			continue
 		}
 		board.addMove(nextMoveIdx)

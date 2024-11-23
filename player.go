@@ -11,7 +11,7 @@ type player struct {
 }
 
 func createPlayer(scanner *bufio.Scanner, playerNum int) player {
-	fmt.Println("Enter name for player %d: ", playerNum)
+	fmt.Printf("Enter name for player %d: ", playerNum)
 	scanner.Scan()
 	name := scanner.Text()
 	return player{

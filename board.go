@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"strconv"
 )
 
 type board struct {
@@ -37,6 +38,22 @@ func (b *board) toggleTurn() {
 	}
 }
 
+func (b *board) getNextMove() (int, error) {
+	b.scanner.Scan()
+	nextMoveStr := b.scanner.Text()
+	nextMoveIdx, err := strconv.Atoi(nextMoveStr)
+	if err != nil {
+		return 0, fmt.Errorf("couldn't convert to integer")
+	}
+	return nextMoveIdx, nil
+}
+
+func (b *board) checkCell(idx int) error {
+	if b.moves[idx] != 0 {
+		return fmt.Errorf("invalid move")
+	}
+	return nil
+}
 func (b *board) addMove(idx int) {
 	switch {
 	case b.nextPlayer == b.p1.name:
