@@ -9,8 +9,8 @@ import (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	p1 := createPlayer(scanner, 1)
-	p2 := createPlayer(scanner, 2)
+	p1 := createPlayer(1, 'X', scanner)
+	p2 := createPlayer(2, 'O', scanner)
 
 	board := board{
 		moves:      [9]rune{},

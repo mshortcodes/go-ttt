@@ -10,12 +10,20 @@ type player struct {
 	symbol rune
 }
 
-func createPlayer(scanner *bufio.Scanner, playerNum int) player {
-	fmt.Printf("Enter name for player %d: ", playerNum)
-	scanner.Scan()
-	name := scanner.Text()
+func createPlayer(playerNum int, symbol rune, scanner *bufio.Scanner) player {
+	name := ""
+	for {
+		fmt.Printf("Enter name for player %d: ", playerNum)
+		scanner.Scan()
+		name = scanner.Text()
+		if name == "" {
+			fmt.Println("Invalid name")
+			continue
+		}
+		break
+	}
 	return player{
 		name:   name,
-		symbol: 'X',
+		symbol: symbol,
 	}
 }

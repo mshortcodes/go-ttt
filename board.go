@@ -15,6 +15,7 @@ type board struct {
 }
 
 func (b board) printBoard() {
+	fmt.Println()
 	for i, move := range b.moves {
 		switch i {
 		case 2, 5, 8:
@@ -23,6 +24,7 @@ func (b board) printBoard() {
 			fmt.Printf("%c | ", move)
 		}
 	}
+	fmt.Println()
 }
 
 func (b board) printTurn() {
@@ -41,19 +43,25 @@ func (b *board) toggleTurn() {
 func (b *board) getNextMove() (int, error) {
 	b.scanner.Scan()
 	nextMoveStr := b.scanner.Text()
-	nextMoveIdx, err := strconv.Atoi(nextMoveStr)
+	nextMoveInt, err := strconv.Atoi(nextMoveStr)
 	if err != nil {
 		return 0, fmt.Errorf("couldn't convert to integer")
 	}
+	nextMoveIdx := nextMoveInt - 1
 	return nextMoveIdx, nil
 }
 
 func (b *board) checkCell(idx int) error {
+	if idx > len(b.moves)-1 || idx < 0 {
+		return fmt.Errorf("cell is out of bounds")
+	}
+
 	if b.moves[idx] != 0 {
 		return fmt.Errorf("invalid move")
 	}
 	return nil
 }
+
 func (b *board) addMove(idx int) {
 	switch {
 	case b.nextPlayer == b.p1.name:
